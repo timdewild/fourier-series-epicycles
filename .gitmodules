@@ -1,0 +1,3 @@
+[submodule "matnimation"]
+	path = matnimation
+	url = git@github.com:timdewild/matnimation.git
