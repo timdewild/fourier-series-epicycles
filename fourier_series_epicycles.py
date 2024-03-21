@@ -7,6 +7,7 @@ abs_path = 'matnimation'
 sys.path.append(os.path.abspath(abs_path)) 
 
 from matnimation.src.matnimation.canvas.single_canvas import SingleCanvas
+from matnimation.src.matnimation.artist.animated.animated_line import AnimatedLine
 
 canvas = SingleCanvas(
     figsize = (4,4),
