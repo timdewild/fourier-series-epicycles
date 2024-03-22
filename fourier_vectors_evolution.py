@@ -53,6 +53,21 @@ class FourierVectorsEvolution:
 
         return self.evolution_matrix
     
+    def get_cycles_radii(self):
+        ordered_fourier_coefficients = self.order_coefficients(self.fourier_coefficients)
+        ordered_cycles_radii = np.abs(ordered_fourier_coefficients)
+
+        return ordered_cycles_radii
+
+
+
+
+
+
+
+
+
+    
 def complex_coefficients_square_wave(n: int):
     if n == 0:
         cn = 0
@@ -75,49 +90,14 @@ test = FourierVectorsEvolution(
 
 evolution = test.fourier_terms_evolution()
 
-#print(evolution)
-print(evolution[:,0])
-print(evolution[:,10])
-
-tindex = 8
-x, y = evolution[:,tindex].real, evolution[:,tindex].imag
-
-plt.plot(x, y)
-plt.xlim(0,1.5)
-plt.ylim(-0.5,0.5)
-plt.gca().set_aspect('equal')
-plt.show()
+print(test.get_cycles_radii())
 
 
 
 
 
 
-# a = np.array([1,2,3,4])
-# b = np.array([1,2,3])
-
-# print(a[:, np.newaxis] * b[np.newaxis, :])
 
 
-# flist = np.array(['c-2','c-1','c0','c1','c2'])
 
-# test = FourierVectorsEvolution(
-#     fourier_coefficients = np.array([1,1,1,1,1]), 
-#     time_array = np.array([0, 0.25, 0.5, 0.75, 1])
-#     )
-
-# test.fourier_terms_evolution()
-
-
-# test_matrix = np.array([[1,1,1], [1,1,1], [1,1,1]])
-# print(np.cumsum(test_matrix, axis = 0))
-# test_vec = np.array([1,2,3])
-# print(test_matrix)
-# print(test_vec[:, np.newaxis])
-# print(test_vec[:, np.newaxis] * test_matrix)
-        
-# test = np.ones((4,3))
-# print(np.array([1,2,3,4])[:, np.newaxis] * test)
-
-        
 
