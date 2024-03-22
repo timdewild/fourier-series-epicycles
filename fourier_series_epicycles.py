@@ -12,6 +12,7 @@ from matnimation.src.matnimation.canvas.multi_canvas import MultiCanvas
 from matnimation.src.matnimation.artist.animated.animated_line import AnimatedLine
 from matnimation.src.matnimation.artist.animated.animated_circle import AnimatedCircle
 from matnimation.src.matnimation.artist.animated.animated_arrow import AnimatedArrow
+from matnimation.src.matnimation.artist.animated.animated_trace import AnimatedTrace
 
 from fourier_vectors_evolution import FourierVectorsEvolution
 
@@ -136,8 +137,17 @@ canvas.add_artist(tracing_dot, row = 0, col = 1)
 
 tracing_dot.set_styling_properties(edgecolor = 'tab:red', facecolor = 'tab:red')
 
+#---- Panel 1 ----#
+x_data_trace = time
+y_data_trace = xdata[-1,:]
 
+trace = AnimatedTrace(
+    name = 'Fourier series trace',
+    x_data = x_data_trace,
+    y_data = y_data_trace
+)
 
+canvas.add_artist(trace, row = 0, col = 0)
 
 animation = Animation(canvas, interval = 10)
 
