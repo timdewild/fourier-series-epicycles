@@ -81,7 +81,7 @@ order = 13
 coefficients = [complex_coefficients_square_wave(k) for k in np.linspace(-order, order, 2 * order + 1)]
 coefficients = np.asarray(coefficients)
 
-time = np.linspace(0,1,100)
+time = np.linspace(0, 1, 100)
 
 test = FourierVectorsEvolution(
     fourier_coefficients = coefficients, 

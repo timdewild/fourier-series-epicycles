@@ -33,22 +33,36 @@ coefficients = np.asarray(coefficients)
 
 time = np.linspace(0,1,700)
 
-test = FourierVectorsEvolution(
+fourier_vectors_evolution = FourierVectorsEvolution(
     fourier_coefficients = coefficients, 
     time_array = time
     )
 
-evolution = test.fourier_terms_evolution()
+evolution = fourier_vectors_evolution.fourier_terms_evolution()
 
-tindex = 8
-x, y = evolution[:,tindex].real, evolution[:,tindex].imag
+real_data, imag_data = evolution.real, evolution.imag
+cycles_radii = fourier_vectors_evolution.get_cycles_radii()
 
-xdata, ydata = evolution.real, evolution.imag
-cycles_radii = test.get_cycles_radii()
+# square signal 
+x_signal = np.array([0, 0.5, 0.5, 1])
+y_signal = np.array([1, 1, -1, -1])
 
 # dot of fourier sum
-x_dot = ydata[-1, :]
-y_dot = xdata[-1, :]
+x_dot = imag_data[-1, :]
+y_dot = real_data[-1, :]
+
+# trace of fourier sum
+x_data_trace = time
+y_data_trace = real_data[-1,:]
+
+# leverer 1 data
+x_data_leveler_1 = np.vstack((time, np.ones_like(time)))
+y_data_leveler_1 = np.vstack((y_dot, y_dot))
+
+# leverer 2 data
+x_data_leveler_2 = np.vstack((1.5 * np.ones_like(time), 0 * np.ones_like(time)))
+y_data_leveler_2 = np.vstack((y_dot, y_dot))
+
 
 
 
@@ -64,12 +78,12 @@ canvas = MultiCanvas(
     time_array = time,
     nrows = 1,
     ncols = 2,
-    axes_limits = [ [0,1,-1.5,+1.5], [-1.5, 1.5, -1.5, 1.5] ],
+    axes_limits = [ [0, 1, -1.5, +1.5], [1.5, -1.5, -1.5, 1.5] ],
     axes_labels = [['$t$', '$f(t)$'], [' ', ' ']]
 )
 
 canvas.set_axis_properties(row = 0, col = 0, xticks = [0, 0.25, 0.5, 0.75, 1], xticklabels = ['$0$', '', '$0.5$', '', '$1$'], yticklabels = ['', '$-1$', '' , '$0$', '', '$+1$', ''])
-canvas.set_axis_properties(row = 0, col = 1, xticklabels = [], yticklabels = [])
+canvas.set_axis_properties(row = 0, col = 1, xticks = [], xticklabels = [], yticks = [], yticklabels = [])
 
 canvas.save_canvas('canvas.jpg')
 
@@ -87,8 +101,6 @@ canvas.add_artist(step_function, row = 0, col = 0, in_legend = True)
 step_function.set_styling_properties(linewidth = 0.4, color = 'tab:blue')
 
 #--- Fourier Series ---#
-x_data_trace = time
-y_data_trace = xdata[-1,:]
 
 trace = AnimatedTrace(
     name = f"$f_N(t)$ for $N={order}$",
@@ -101,9 +113,6 @@ trace.set_styling_properties(linewidth = 0.4, color = 'tab:red')
 canvas.add_artist(trace, row = 0, col = 0, in_legend = True)
 
 #--- Leverer 1 ---#
-x_data_leveler_1 = np.vstack((time, np.ones_like(time)))
-y_data_leveler_1 = np.vstack((y_dot, y_dot))
-
 leveler_1 = AnimatedLine(
     name = 'Leverer 1',
     x_data = x_data_leveler_1,
@@ -112,20 +121,6 @@ leveler_1 = AnimatedLine(
 
 canvas.add_artist(leveler_1, row = 0, col = 0)
 
-#--- Red Tracing Dot 1 ---#
-
-tracing_dot_1 = AnimatedCircle(
-    name = 'Tracing Dot',
-    radius = 0.015,
-    x_data = time,
-    y_data = y_dot
-)
-
-#canvas.add_artist(tracing_dot_1, row = 0, col = 0)
-
-#tracing_dot_1.set_styling_properties(edgecolor = 'tab:red', facecolor = 'tab:red')
-
-
 #---- Panel 2 ----#
 
 #--- Rotating Vectors ---#
@@ -133,11 +128,11 @@ vector_width = 0.0001
 head_scale = 1.2732 * 0.07
 
 for i in range(1, 2 * order + 1):
-    x_tail_data = ydata[i - 1, :]
-    y_tail_data = xdata[i - 1, :]
+    x_tail_data = imag_data[i - 1, :]
+    y_tail_data = real_data[i - 1, :]
 
-    x_tip_data = ydata[i, :]
-    y_tip_data = xdata[i, :]
+    x_tip_data = imag_data[i, :]
+    y_tip_data = real_data[i, :]
 
     head_width = head_scale * cycles_radii[i]
 
@@ -148,19 +143,19 @@ for i in range(1, 2 * order + 1):
         x_tip_data = x_tip_data,
         y_tip_data = y_tip_data,
         width = vector_width,
-        head_width = head_width,       #3 * head_scale * vector_width,
-        head_length = 1.5 * head_width      #1.5 * 3 * head_scale * vector_width
+        head_width = head_width, 
+        head_length = 1.5 * head_width
     )
 
     canvas.add_artist(vector, row = 0, col = 1)
 
     vector.set_styling_properties(linewidth = 0.4, facecolor = 'k', edgecolor = 'k')
 
-
 #--- Moving Cycles ---#
+    
 for i in range(1, 2 * order + 1):
-    x_center = ydata[i - 1, :]
-    y_center = xdata[i - 1, :]
+    x_center = imag_data[i - 1, :]
+    y_center = real_data[i - 1, :]
     cycle_radius = cycles_radii[i]
 
     cycle = AnimatedCircle(
@@ -188,9 +183,6 @@ canvas.add_artist(tracing_dot_2, row = 0, col = 1)
 tracing_dot_2.set_styling_properties(edgecolor = 'tab:red', facecolor = 'tab:red')
 
 #--- Leverer 2 ---#
-x_data_leveler_2 = np.vstack((-1.5 * np.ones_like(time), 0 * np.ones_like(time)))
-y_data_leveler_2 = np.vstack((y_dot, y_dot))
-
 leveler_2 = AnimatedLine(
     name = 'Leverer 2',
     x_data = x_data_leveler_2,
@@ -207,14 +199,7 @@ for leverer in [leveler_1, leveler_2]:
 canvas.construct_legend(row = 0, col = 0, fontsize = 'small', ncols = 2, loc = 'lower center')
 
 
-
-
-
-
-
-
-
 #---- Animation ----#
 animation = Animation(canvas, interval = 10)
-animation.render('animation.mp4')
+animation.render('fourier_series_square_wave.mp4')
 
