@@ -1,5 +1,7 @@
 # Fourier Epicycles Animation
-In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane, based on the wonderful [video](https://www.youtube.com/watch?v=r6sGWTCMz2k) by 3Blue1Brown. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. 
+In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane, based on the wonderful [video](https://www.youtube.com/watch?v=r6sGWTCMz2k) by 3Blue1Brown. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. An example of this 'Fourier drawing' is given by the Github cat below:
+
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/e4a1b983-89bc-48ed-82c2-dce654978201
 
 ## The Complex Fourier Series
 For a (possibly complex) function $f(t)$ with period $P$, i.e. $f(t) = f(t+P)$, the complex Fourier series is given by:
@@ -72,6 +74,5 @@ https://github.com/timdewild/fourier-series-epicycles/assets/93600756/55b98674-9
 ### Drawing $\pi$ with $N = 60$
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/8d8b37a4-b17f-4bb6-b96a-92db9339427a
 
-
-
-In practice, dra
+## A Recipe for Finding Parametric Curves of Shapes
+Careful readers might have noticed that there is one, more practical, missing piece to this puzzel. For the symbol or 'shape' $\pi$, how do we find the parametric equations $x(t)$ and $y(t)$? We take an image of the symbol $\pi$ in Scalable Vector Graphics format `*.svg`. The advantage of this image format is that the shape it describes can be easily converted into a closed parametric curve, as done by the `SVGToCurve` class. This class represents $f(t)$ by an interpolation function. That is, the analytic form is not known and hence the coefficients $c_n$ can only be computed numerically, which is done using the `NumericalFourierCoeffients` class. Given $c_n$ the evolution of all the vectors is calculated in the class `FourierVectorsEvolution`. 
