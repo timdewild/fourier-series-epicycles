@@ -47,4 +47,6 @@ https://github.com/timdewild/fourier-series-epicycles/assets/93600756/7772e1d6-e
 
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/da7186fd-3818-4b87-8328-bc46a8e2d635
 
+# Fourier Drawings
+Note that the complex plane has essentially two degrees of freedom: the real axis and the complex axis. In the examples above, we only used the real degree of freedom, since we were concerned with the Fourier series for real functions. How can we use this second degree of freedom? It turns out that you can draw arbitrarely complex 2D shapes, as long as they are described by a single closed parametric curve. The curve should be closed because Fourier series only work for periodic functions: going along the closed curve once corresponds to one period.   
 
