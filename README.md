@@ -2,7 +2,7 @@
 In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. 
 
 ## The Complex Fourier Series
-For a function $f(t)$ with period $P$, i.e. $f(t) = f(t+P)$, the complex Fourier series is given by:
+For a (possibly complex) function $f(t)$ with period $P$, i.e. $f(t) = f(t+P)$, the complex Fourier series is given by:
 ```math
 \begin{equation*}
     f(t) = \sum_{n=-\infty}^{+\infty} c_n\; e^{i2\pi n t/P}.
@@ -48,5 +48,27 @@ https://github.com/timdewild/fourier-series-epicycles/assets/93600756/7772e1d6-e
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/da7186fd-3818-4b87-8328-bc46a8e2d635
 
 # Fourier Drawings
-Note that the complex plane has essentially two degrees of freedom: the real axis and the complex axis. In the examples above, we only used the real degree of freedom, since we were concerned with the Fourier series for real functions. How can we use this second degree of freedom? It turns out that you can draw arbitrarely complex 2D shapes, as long as they are described by a single closed parametric curve. The curve should be closed because Fourier series only work for periodic functions: going along the closed curve once corresponds to one period.   
+Note that the complex plane has essentially two degrees of freedom: the real axis and the complex axis. In the examples above, we only used the real degree of freedom, since we were concerned with the Fourier series for real functions. How can we use this second degree of freedom? It turns out that you can draw arbitrarely complex 2D shapes, as long as they are described by a single closed parametric curve. The curve should be closed because Fourier series only work for periodic functions: going along the closed curve once corresponds to one period. More specifically, suppose the closed parameteric curve is described by $(x(t), y(t))$, where $t$ is called the parameter. Periodicity implies that:
+```math
+\begin{align}
+    x(t) &= x(t+P)\nonumber\\
+    y(t) &= y(t+P)
+\end{align}
+```
+We will assume that the period is $P=1$, so that the parameter ranges over $t\in [0,1]$. In the complex plane, the parametric curve can be represented by:
+```math
+\begin{equation*}
+    f(t) = x(t) + iy(t),\quad\quad \mathrm{Re}\; f(t) = x(t),\quad\quad \mathrm{Im}\; f(t) = y(t). 
+\end{equation*}
+```
+Now that we have $f(t)$, it is game on: we plug it into the equation for $c_n$ and we can construct the complex Fourier series. The same interpretation in terms of rotating vectors in the complex plane still applies. The difference is that now the tip of the final vector will trace out some shape in the complex plane as $t$ evolves forward, instead of staying on the real axis. This should not come as a surprise: after all in this case the function $f(t)$ is complex. In the example below, we draw a Fourier series approximations to the symbol $\pi$. Note that increasing $N$ indeed results in more accurately drawing $\pi$. 
 
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/cc613b47-0b65-43bb-bf81-ef7df4838d3d
+
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/55b98674-98c4-4c6c-b39a-8fb02ceb20b0
+
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/8d8b37a4-b17f-4bb6-b96a-92db9339427a
+
+
+
+In practice, dra
