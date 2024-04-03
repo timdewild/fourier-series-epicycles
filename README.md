@@ -36,3 +36,15 @@ Note that in the sine example, $f(t)$ gives real output for every value of $t$. 
 
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/bd684643-61c1-479e-aba7-8d063129c60d
 
+# Fourier Series for Analytic Functions
+The sine example above is easy, in the sense that we only needed two non-zero terms to represent the entire series. In most cases, we can approximate the analytic function by taking the partial fourier sum:
+```math
+f_N(t) = \sum _{n=-N}^N c_n\; e^{i2\pi n t/P}.
+```
+Typically, the magnitude of the coefficients decreases with $|n|$. Therefore, we expect the partial series to better represent the actual function as we increase $N$. Below, we show how partial Fourier series for the step function and quadratic function are generated using rotating vectors. 
+
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/7772e1d6-e628-4856-b597-6993d4f42018
+
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/893f7eb3-5d53-44c8-ba71-06f63cd1f3ec
+
+
