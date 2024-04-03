@@ -63,10 +63,13 @@ We will assume that the period is $P=1$, so that the parameter ranges over $t\in
 ```
 Now that we have $f(t)$, it is game on: we plug it into the equation for $c_n$ and we can construct the complex Fourier series. The same interpretation in terms of rotating vectors in the complex plane still applies. The difference is that now the tip of the final vector will trace out some shape in the complex plane as $t$ evolves forward, instead of staying on the real axis. This should not come as a surprise: after all in this case the function $f(t)$ is complex. In the example below, we draw a Fourier series approximations to the symbol $\pi$. Note that increasing $N$ indeed results in more accurately drawing $\pi$. 
 
+### Drawing $\pi$ with $N = 20$
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/cc613b47-0b65-43bb-bf81-ef7df4838d3d
 
+### Drawing $\pi$ with $N = 40$
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/55b98674-98c4-4c6c-b39a-8fb02ceb20b0
 
+### Drawing $\pi$ with $N = 60$
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/8d8b37a4-b17f-4bb6-b96a-92db9339427a
 
 
