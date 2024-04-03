@@ -1,5 +1,5 @@
 # Fourier Epicycles Animation
-In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane, based on the wonderful [video](https://www.youtube.com/watch?v=r6sGWTCMz2k) by 3Blue1Brown. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. An example of this 'Fourier drawing' is given by the Github cat below:
+In these animations (made using [matnimation](https://github.com/timdewild/matnimation/tree/0e42db803f603951173fe5f804372a60ae76513c)), we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane, based on the wonderful [video](https://www.youtube.com/watch?v=r6sGWTCMz2k) by 3Blue1Brown. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. An example of this 'Fourier drawing' is given by the Github cat below:
 
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/e4a1b983-89bc-48ed-82c2-dce654978201
 
