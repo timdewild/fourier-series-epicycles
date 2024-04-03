@@ -18,11 +18,6 @@ class SVGToCurve:
             for path in doc.getElementsByTagName('path'):
                 path_data = path.getAttribute('d')
 
-        # self.doc = minidom.parse(self.path_to_file)
-
-        # for path in self.doc.getElementsByTagName('path'):
-        #     path_data = path.getAttribute('d')
-
         self.path = svg.path.parse_path(path_data)
 
         # generate rescaled path array
