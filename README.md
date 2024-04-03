@@ -1,5 +1,5 @@
 # Fourier Epicycles Animation
-In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. 
+In these animations, we give a different interpretation to (complex) Fourier series in terms of rotating vectors in the complex plane, based on the wonderful [video](https://www.youtube.com/watch?v=r6sGWTCMz2k) by 3Blue1Brown. This gives a completely new way of looking at Fourier series. We will also show how we can make 2D 'Fourier drawings' using this interpretation. 
 
 ## The Complex Fourier Series
 For a (possibly complex) function $f(t)$ with period $P$, i.e. $f(t) = f(t+P)$, the complex Fourier series is given by:
