@@ -45,6 +45,6 @@ Typically, the magnitude of the coefficients decreases with $|n|$. Therefore, we
 
 https://github.com/timdewild/fourier-series-epicycles/assets/93600756/7772e1d6-e628-4856-b597-6993d4f42018
 
-https://github.com/timdewild/fourier-series-epicycles/assets/93600756/893f7eb3-5d53-44c8-ba71-06f63cd1f3ec
+https://github.com/timdewild/fourier-series-epicycles/assets/93600756/da7186fd-3818-4b87-8328-bc46a8e2d635
 
 
