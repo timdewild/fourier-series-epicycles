@@ -3,8 +3,11 @@ import numpy as np
 import sys
 import os
 
-abs_path = 'matnimation'
-sys.path.append(os.path.abspath(abs_path)) 
+# to be able to find matnimation directory
+sys.path.append(os.path.abspath(''))
+
+# to be able to find src directory inside matnimation
+sys.path.append(os.path.abspath('matnimation')) 
 
 from matnimation.src.matnimation.animation.animation import Animation
 from matnimation.src.matnimation.canvas.single_canvas import SingleCanvas
@@ -16,19 +19,27 @@ from matnimation.src.matnimation.artist.animated.animated_trace import AnimatedT
 from matnimation.src.matnimation.artist.static.static_hlines import StaticHlines
 from matnimation.src.matnimation.artist.static.static_line import StaticLine
 
-from fourier_vectors_evolution import FourierVectorsEvolution
+from core.fourier_vectors_evolution import FourierVectorsEvolution
+from core.fourier_coefficients_integrator import NumericalFourierCoeffients
 
-def complex_coefficients_quadratic(n: int):
+def square_wave(t: float):
+    if t < 0.5:
+        return 1
+    
+    else: 
+        return -1 
+
+def complex_coefficients_square_wave(n: int):
     if n == 0:
-        cn = 1 / 3
+        cn = 0
 
     else:
-        cn = 1j / 2 / np.pi / n + 1 / 2 / (np.pi * n) ** 2
+        cn = 1j / (np.pi * n) * ( (-1) ** n - 1 )
 
     return cn 
 
-order = 3
-coefficients = [complex_coefficients_quadratic(k) for k in np.linspace(-order, order, 2 * order + 1)]
+order = 20
+coefficients = [complex_coefficients_square_wave(k) for k in np.linspace(-order, order, 2 * order + 1)]
 coefficients = np.asarray(coefficients)
 
 time = np.linspace(0,1,700)
@@ -44,8 +55,8 @@ real_data, imag_data = evolution.real, evolution.imag
 cycles_radii = fourier_vectors_evolution.get_cycles_radii()
 
 # square signal 
-x_signal = time
-y_signal = x_signal ** 2
+x_signal = np.array([0, 0.5, 0.5, 1])
+y_signal = np.array([1, 1, -1, -1])
 
 # dot of fourier sum
 x_dot = imag_data[-1, :]
@@ -78,20 +89,29 @@ canvas = MultiCanvas(
     time_array = time,
     nrows = 1,
     ncols = 2,
-    axes_limits = [ [0, 1, -0.2, +1.2], [0.5, -0.5, -0.2, 1.2] ],
+    axes_limits = [ [0, 1, -1.5, +1.5], [1.5, -1.5, -1.5, 1.5] ],
     axes_labels = [['$t$', '$f(t)$'], ['Im $z$', 'Re $z$']]
 )
 
-canvas.set_axis_properties(row = 0, col = 0, xticks = [0, 0.25, 0.5, 0.75, 1], xticklabels = ['$0$', '', '$0.5$', '', '$1$'], yticks = [0, 0.5, 1.], yticklabels = ['$0$', '', '1'])
-canvas.set_axis_properties(row = 0, col = 1, yticks = [0, 0.5, 1.], yticklabels = ['$0$', '', '1'], aspect = 'equal')
+canvas.set_axis_properties(row = 0, col = 0, xticks = [0, 0.25, 0.5, 0.75, 1], xticklabels = ['$0$', '', '$0.5$', '', '$1$'], yticklabels = ['', '$-1$', '' , '$0$', '', '$+1$', ''])
+canvas.set_axis_properties(
+    row = 0, 
+    col = 1, 
+    xticks = [-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5], 
+    xticklabels = ['', '$-1$', '', '$0$', '', '$1$', ''], 
+    yticks = [-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5], 
+    yticklabels = ['', '$-1$', '', '$0$', '', '$1$', '']
+    )
+
+canvas.save_canvas('canvas.jpg')
 
 #---- Panel 1 ----#
 
 #--- Step Function ---#
 step_function = StaticLine(
-    name = '$f(t) = t^2$',
-    x_data = x_signal,
-    y_data = y_signal
+    name = '$f(t)$',
+    x_data = np.array([0, 0.5, 0.5, 1]),
+    y_data = np.array([1, 1, -1, -1])
 )
 
 canvas.add_artist(step_function, row = 0, col = 0, in_legend = True)
@@ -197,14 +217,7 @@ for leverer in [leveler_1, leveler_2]:
 canvas.construct_legend(row = 0, col = 0, fontsize = 'small', ncols = 2, loc = 'lower center')
 
 
-
-
-
-
-
-
-
 #---- Animation ----#
 animation = Animation(canvas, interval = 10)
-animation.render('fourier_series_quadratic.mp4')
+animation.render('animations_analytic_functions/fourier_series_square_wave.mp4')
 

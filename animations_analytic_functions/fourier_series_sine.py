@@ -3,8 +3,11 @@ import numpy as np
 import sys
 import os
 
-abs_path = 'matnimation'
-sys.path.append(os.path.abspath(abs_path)) 
+# to be able to find matnimation directory
+sys.path.append(os.path.abspath(''))
+
+# to be able to find src directory inside matnimation
+sys.path.append(os.path.abspath('matnimation'))
 
 from matnimation.src.matnimation.animation.animation import Animation
 from matnimation.src.matnimation.canvas.single_canvas import SingleCanvas
@@ -16,19 +19,23 @@ from matnimation.src.matnimation.artist.animated.animated_trace import AnimatedT
 from matnimation.src.matnimation.artist.static.static_hlines import StaticHlines
 from matnimation.src.matnimation.artist.static.static_line import StaticLine
 
-from fourier_vectors_evolution import FourierVectorsEvolution
+from core.fourier_vectors_evolution import FourierVectorsEvolution
 
-def complex_coefficients_square_wave(n: int):
-    if n == 0:
-        cn = 0
+def complex_coefficients_sin(n: int):
+    if n == 1:
+        cn = 1 / 2j
 
+    elif n == -1:
+        cn = -1 / 2j
+    
     else:
-        cn = 1j / (np.pi * n) * ( (-1) ** n - 1 )
+        cn = 0
 
     return cn 
 
-order = 20
-coefficients = [complex_coefficients_square_wave(k) for k in np.linspace(-order, order, 2 * order + 1)]
+order = 1
+coefficients = [complex_coefficients_sin(k) for k in np.linspace(-order, order, 2 * order + 1)]    
+print(coefficients)
 coefficients = np.asarray(coefficients)
 
 time = np.linspace(0,1,700)
@@ -39,13 +46,14 @@ fourier_vectors_evolution = FourierVectorsEvolution(
     )
 
 evolution = fourier_vectors_evolution.fourier_terms_evolution()
+print(evolution)
 
 real_data, imag_data = evolution.real, evolution.imag
 cycles_radii = fourier_vectors_evolution.get_cycles_radii()
 
 # square signal 
-x_signal = np.array([0, 0.5, 0.5, 1])
-y_signal = np.array([1, 1, -1, -1])
+x_signal = time
+y_signal = np.sin(2 * np.pi * time)
 
 # dot of fourier sum
 x_dot = imag_data[-1, :]
@@ -78,27 +86,14 @@ canvas = MultiCanvas(
     time_array = time,
     nrows = 1,
     ncols = 2,
-    axes_limits = [ [0, 1, -1.5, +1.5], [1.5, -1.5, -1.5, 1.5] ],
-    axes_labels = [['$t$', '$f(t)$'], [' ', ' ']]
+    axes_limits = [ [0, 1, -1.2, +1.2], [1.2, -1.2, -1.2, 1.2] ],
+    axes_labels = [['$t$', '$f(t)=\sin (2\pi t)$'], ['Im $z$', 'Re $z$']]
 )
 
-canvas.set_axis_properties(row = 0, col = 0, xticks = [0, 0.25, 0.5, 0.75, 1], xticklabels = ['$0$', '', '$0.5$', '', '$1$'], yticklabels = ['', '$-1$', '' , '$0$', '', '$+1$', ''])
-canvas.set_axis_properties(row = 0, col = 1, xticks = [], xticklabels = [], yticks = [], yticklabels = [])
-
-canvas.save_canvas('canvas.jpg')
+canvas.set_axis_properties(row = 0, col = 0, xticks = [0, 0.25, 0.5, 0.75, 1], xticklabels = ['$0$', '', '$0.5$', '', '$1$'], yticks = [-1, 0, 1.], yticklabels = ['$-1$', '$0$', '$1$'])
+canvas.set_axis_properties(row = 0, col = 1, yticks = [-1, -0.5, 0, 0.5, 1.], yticklabels = ['$-1$', '', '$0$', '', '$1$'], aspect = 'equal')
 
 #---- Panel 1 ----#
-
-#--- Step Function ---#
-step_function = StaticLine(
-    name = '$f(t)$',
-    x_data = np.array([0, 0.5, 0.5, 1]),
-    y_data = np.array([1, 1, -1, -1])
-)
-
-canvas.add_artist(step_function, row = 0, col = 0, in_legend = True)
-
-step_function.set_styling_properties(linewidth = 0.4, color = 'tab:blue')
 
 #--- Fourier Series ---#
 
@@ -137,7 +132,7 @@ for i in range(1, 2 * order + 1):
     head_width = head_scale * cycles_radii[i]
 
     vector = AnimatedArrow(
-        name = f"vector-{i}",
+        name = f"$n = {i}$",
         x_tail_data = x_tail_data,
         y_tail_data = y_tail_data,
         x_tip_data = x_tip_data,
@@ -147,7 +142,7 @@ for i in range(1, 2 * order + 1):
         head_length = 1.5 * head_width
     )
 
-    canvas.add_artist(vector, row = 0, col = 1)
+    canvas.add_artist(vector, row = 0, col = 1, in_legend = True)
 
     vector.set_styling_properties(linewidth = 0.4, facecolor = 'k', edgecolor = 'k')
 
@@ -196,10 +191,11 @@ for leverer in [leveler_1, leveler_2]:
 
 
 #--- Legend ---#
-canvas.construct_legend(row = 0, col = 0, fontsize = 'small', ncols = 2, loc = 'lower center')
+#canvas.construct_legend(row = 0, col = 0, fontsize = 'small', ncols = 2, loc = 'lower center')
+#canvas.construct_legend(row = 0, col = 1, fontsize = 'small', ncols = 2, loc = 'lower center')
 
 
 #---- Animation ----#
 animation = Animation(canvas, interval = 10)
-animation.render('fourier_series_square_wave.mp4')
+animation.render('animations_analytic_functions/fourier_series_sine.mp4')
 

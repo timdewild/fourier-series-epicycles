@@ -35,13 +35,11 @@ def complex_quadrature_integrator(integrand: callable, a: float, b: float, ):
 
     threshold = 1e-3
 
-    print(f"Relative error in real and imaginary parts are {real_relative_error} and {imag_relative_error}.")
+    # if real_relative_error > threshold:
+    #     print("High real integration error", real_relative_error)
 
-    if real_relative_error > threshold:
-        print("High real integration error", real_relative_error)
-
-    if imag_relative_error > threshold:
-        print("High imaginary integration error", imag_relative_error)
+    # if imag_relative_error > threshold:
+    #     print("High imaginary integration error", imag_relative_error)
 
 
     return real_integral + 1j * imag_integral  # the complex output
@@ -55,6 +53,7 @@ class NumericalFourierCoeffients:
         self.period  = period
 
         self.cached_coefficients = {}
+        self.coefficients: list = None
 
     def coefficient_integrand(self, n: int):
 
@@ -76,7 +75,7 @@ class NumericalFourierCoeffients:
         return cn
     
     def compute_coefficients(self):
-        coefficients_list = []
+        self.coefficients = []
 
         for k in range(-self.order, self.order + 1):
             if k in self.cached_coefficients:
@@ -86,7 +85,25 @@ class NumericalFourierCoeffients:
                 ck = self.fourier_coefficient_cn(n = k)
 
             self.cached_coefficients[k] = ck
-            coefficients_list.append(ck)
+            self.coefficients.append(ck)
+
+        self.coefficients = np.array(self.coefficients)
+
+        return self.coefficients
+    
+    def partial_fourier_series(self, time_array: np.ndarray):
+
+        partial_fourier_series = np.zeros_like(time_array, dtype = np.complex128)
+
+        for i,k in enumerate(np.arange(-self.order, self.order + 1, dtype=int)):
+            partial_fourier_series += self.coefficients[i] * np.exp( 1j * 2 * np.pi * k * time_array / self.period )
+
+        return partial_fourier_series
+
+        
+        
+    
+
 
     
 
